@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour mon cher Quentin...</title>
+    <style>
+        /* TOUT LE STYLE ICI */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffeef2;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+        }
+        h1 { color: #d63384; font-size: 2rem; }
+        .heart { font-size: 50px; animation: pulse 1.5s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            height: 50px;
+        }
+        button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        #yesBtn { background: #ff4d6d; color: white; }
+        #noBtn { 
+            background: #adb5bd; 
+            color: white; 
+            position: absolute; 
+            transition: all 0.1s ease;
+        }
+        .confetti {
+            position: fixed;
+            top: -20px;
+            animation: fall linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <div class="heart">❤️</div>
+        <h1>Mon cher Quentin...</h1>
+        <p>Veux-tu être mon Valentin ?</p>
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">OUI !</button>
+            <button id="noBtn">Non</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        
+        // Le bouton s'enfuit au survol de la souris OU au toucher (mobile)
+        const moveButton = () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        };
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        function celebrate() {
+            document.getElementById('mainCard').innerHTML = `
+                <div class="heart">💖</div>
+                <h1>YAY !</h1>
+                <p>Je t'aime Quentin !</p>
+                <p>Rendez-vous le 14 février ! 🌹</p>
+            `;
+            
+            // Pluie de coeurs
+            for(let i=0; i<100; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('confetti');
+                heart.innerText = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                document.body.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
